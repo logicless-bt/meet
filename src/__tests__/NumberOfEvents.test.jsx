@@ -20,10 +20,8 @@ describe('<NumberOfEvents /> component', () => {
     });
 
     test('number changes when user inputs', async () => {
-        console.log(textBox);
         const user = userEvent.setup();
         const textBox = NumberOfEventsComponent.queryByRole('textbox');
         await user.type(textBox, `10`);
-        console.log(textBox);
     });
 });
