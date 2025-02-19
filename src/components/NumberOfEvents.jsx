@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 
 
-const NumberOfEvents = () => {
-    const [eventNum, setEventNum] = useState(32);
+const NumberOfEvents = ({ currentNOE, setCurrentNOE, setErrorNotif }) => {
+    const [eventNum, setEventNum] = useState(currentNOE);
     const handleInputChanged = (event) => {
         const value = event.target.value;
 
-        if(value < 1){
-            throw Error('Enter a valid number.');
-        } else if (value > 32) {
-            throw Error('List can only show up to 32 events.');
-        } else {   
-            setEventNum(value);
-        }
+		setEventNum(value);
+
+		if (isNaN(value) || value <= 0) {
+			setErrorNotif('Enter a valid number');
+		} else if (value > 32) {
+			setErrorNotif('Only maximum of 32 is allowed');
+		} else {
+			setErrorNotif('');
+			setCurrentNOE(value);
+		}
     }
     
     return (
@@ -22,7 +25,7 @@ const NumberOfEvents = () => {
                 type="text"
                 className="eventNumber"
                 value={eventNum}
-                onBlur={handleInputChanged}
+                onChange={handleInputChanged}
                 />
             </label>
         </div>

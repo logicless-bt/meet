@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 
 const Event = ({ event }) => {
   const [visible, setVisible] = useState(false);
+  const date = new Date(event.created).toISOString().split('T')[0];
+
   return (
     <li>
       <h2 id="title">{event.summary}</h2>
       <h3>Starts:</h3>
-      <h3 id="start-time">{event.created}</h3>
+      <h3 id="start-time">{date}</h3>
       <h3>Takes Place At: </h3>
       <h3 id="location">{event.location}</h3>
       {visible ? (

@@ -1,12 +1,17 @@
-import { render } from '@testing-library/react';
+import { render, within } from '@testing-library/react';
 import React from 'react';
 import NumberOfEvents from '../components/NumberOfEvents.jsx';
 import userEvent from '@testing-library/user-event';
+import App from '../App';
 
 describe('<NumberOfEvents /> component', () => {
     let NumberOfEventsComponent;
     beforeEach(() => {
-        NumberOfEventsComponent = render(<NumberOfEvents />);
+        NumberOfEventsComponent = render(<
+            NumberOfEvents currentNOE = {32} 
+            setCurrentNOE = {() => {}}
+            setErrorNotif = {() => {}} 
+    />);
     });
 
     test('renders with the role of textbox', () => {
@@ -24,4 +29,23 @@ describe('<NumberOfEvents /> component', () => {
         const textBox = NumberOfEventsComponent.queryByRole('textbox');
         await user.type(textBox, `10`);
     });
+});
+
+describe('<NumberOfEvents /> integration', () => {
+    test('# of events matches input', async () => {
+        const user = userEvent.setup();
+        const AppComponent = render(<App />);
+        const AppDOM = AppComponent.container.firstChild;
+
+        const NOEDOM = AppDOM.querySelector('#number-of-events');
+        const textBox = within(NOEDOM).queryByRole('textbox');
+        await user.click(textBox);
+        await user.type(textBox, '{backspace}{backspace}10');
+
+        const listItems = within(AppDOM).queryAllByRole('listitem');
+        expect(listItems).toHaveLength(10);
+
+
+    });
+
 });
