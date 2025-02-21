@@ -16,7 +16,20 @@ const oAuth2Client = new google.auth.OAuth2(
  redirect_uris[0]
 );
 
-
+module.exports.handler = async (event) => {
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
+      body: '',
+    };
+  }
+}
 module.exports.getAuthURL = async () => {
  const authUrl = oAuth2Client.generateAuthUrl({
    access_type: "offline",
@@ -70,7 +83,7 @@ module.exports.getAuthURL = async () => {
           body: JSON.stringify(error),
         };
       });
-   };
+};
 
 module.exports.getCalendarEvents = async (event) => {
     const access_token = decodeURIComponent(`${event.pathParameters.access_token}`);
