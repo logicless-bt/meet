@@ -16,7 +16,7 @@ const oAuth2Client = new google.auth.OAuth2(
  redirect_uris[0]
 );
 
-module.exports.handler = async (event) => {
+/*module.exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -29,26 +29,38 @@ module.exports.handler = async (event) => {
       body: '',
     };
   }
-}
-module.exports.getAuthURL = async () => {
- const authUrl = oAuth2Client.generateAuthUrl({
-   access_type: "offline",
-   scope: SCOPES,
- });
+}*/
 
- return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    },
-    body: JSON.stringify({
-      authUrl,
-    }),
-  };
- };
+module.exports.getAuthURL = async () => {
+  try {
+    const authUrl = oAuth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: SCOPES,
+    });
+
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+      body: JSON.stringify({ authUrl }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      },
+      body: JSON.stringify({ error: error.message }),
+    };
+  }
+};
 
  module.exports.getAccessToken = async (event) => {
     // Decode authorization code extracted from the URL query

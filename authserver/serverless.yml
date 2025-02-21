@@ -16,7 +16,16 @@ functions:
      - http:
          path: api/get-auth-url
          method: get
-         cors: true
+         cors: 
+          origin: '*'
+          methods:
+          headers: 
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
  getAccessToken:
     handler: handler.getAccessToken
     events:
@@ -29,7 +38,11 @@ functions:
             - GET
           headers: 
             - Content-type
+            - X-Amz-Date
             - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
  getCalendarEvents:
     handler: handler.getCalendarEvents
     events:
@@ -42,4 +55,8 @@ functions:
             - GET
           headers:
             - Content-type
+            - X-Amz-Date
             - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
