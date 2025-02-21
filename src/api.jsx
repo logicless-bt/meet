@@ -62,7 +62,7 @@ export const getAccessToken = async () => {
       const { authURL } = result;
       return (window.location.href = authURL);
     }
-    return code && getAccessToken(code);
+    return code && getToken(code);
   }
   return accessToken;
 };
