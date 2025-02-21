@@ -37,7 +37,7 @@ export const getEvents = async () => {
 
   if (token) {
     removeQuery();
-    const url =  "https://ftwjicy4je.execute-api.us-east-2.amazonaws.com/dev/api/get-events" + "/" + token;
+    const url =  "https://vok7mjh0l6.execute-api.us-east-2.amazonaws.com/dev/api/get-events" + "/" + token;
     const response = await fetch(url);
     const result = await response.json();
     if (result) {
@@ -45,6 +45,21 @@ export const getEvents = async () => {
     } else return null;
   }
 };
+
+const removeQuery = () => {
+  let newurl;
+  if (window.history.pushState && window.location.pathname) {
+    newurl =
+      window.location.protocol +
+      "//" +
+      window.location.host +
+      window.location.pathname;
+    window.history.pushState("", "", newurl);
+  } else {
+    newurl = window.location.protocol + "//" + window.location.host;
+    window.history.pushState("", "", newurl);
+  }
+ };
 
 export const getAccessToken = async () => {
   const accessToken = localStorage.getItem('access_token');
@@ -56,7 +71,7 @@ export const getAccessToken = async () => {
     const code = await searchParams.get('code');
     if(!code) {
       const response = await fetch(
-        "https://ftwjicy4je.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url"
+        "https://vok7mjh0l6.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url"
       );
       const result = await response.json();
       const { authURL } = result;
@@ -70,7 +85,7 @@ export const getAccessToken = async () => {
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
   const response = await fetch(
-    'https://ftwjicy4je.execute-api.us-east-2.amazonaws.com/dev/api/token' + '/' + encodeCode
+    'https://vok7mjh0l6.execute-api.us-east-2.amazonaws.com/dev/api/token' + '/' + encodeCode
   );
   const { access_token } = await response.json();
   access_token && localStorage.setItem("access_token", access_token);
