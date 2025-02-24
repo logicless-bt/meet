@@ -19,6 +19,7 @@ functions:
          cors: 
           origin: '*'
           methods:
+            - GET
           headers: 
             - Content-Type
             - X-Amz-Date
@@ -33,7 +34,7 @@ functions:
          path: api/token/{code}
          method: get
          cors: 
-          origins: '*'
+          origin: '*'
           methods:
             - GET
           headers: 
@@ -50,7 +51,7 @@ functions:
          path: api/get-events/{access_token}
          method: get
          cors:
-          origins: '*'
+          origin: '*'
           methods:
             - GET
           headers:

@@ -16,7 +16,7 @@ const oAuth2Client = new google.auth.OAuth2(
  redirect_uris[0]
 );
 
-/*module.exports.handler = async (event) => {
+module.exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -29,7 +29,7 @@ const oAuth2Client = new google.auth.OAuth2(
       body: '',
     };
   }
-}*/
+}
 
 module.exports.getAuthURL = async () => {
   try {
