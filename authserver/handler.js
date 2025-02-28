@@ -16,6 +16,7 @@ const oAuth2Client = new google.auth.OAuth2(
  redirect_uris[0]
 );
 
+
 module.exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
