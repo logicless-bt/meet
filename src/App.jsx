@@ -13,7 +13,7 @@ function App() {
   const [currentCity, setCurrentCity] = useState("See all cities");
   const [errorNotif, setErrorNotif] = useState("");
 
-  console.log("start");
+  
   const fetchData = async () => {
     const allEvents = await getEvents();
     const filteredEvents = currentCity === "See all cities" ?
@@ -22,12 +22,10 @@ function App() {
     setEvents(filteredEvents.slice(0, currentNOE));
     setAllLocations(extractLocations(allEvents));
   }
-  console.log("use effect: ");
 
   useEffect(() => {
     fetchData();
   }, [currentCity, currentNOE]);
-  console.log("data: " + events[0]);
 
   return (
     <div>
