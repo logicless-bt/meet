@@ -57,10 +57,6 @@ module.exports.getAuthURL = async () => {
  
  
   return new Promise((resolve, reject) => {
-    /**
-     *  Exchange authorization code for access token with a “callback” after the exchange,
-     *  The callback in this case is an arrow function with the results as parameters: “error” and “response”
-     */
  
  
     oAuth2Client.getToken(code, (error, response) => {
@@ -82,7 +78,6 @@ module.exports.getAuthURL = async () => {
       };
     })
     .catch((error) => {
-      // Handle error
       return {
         statusCode: 500,
         body: JSON.stringify(error),
