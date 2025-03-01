@@ -33,7 +33,7 @@ module.exports.handler = async (event) => {
 }
 
 module.exports.getAuthURL = async () => {
-  try {
+  
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: "offline",
       scope: SCOPES,
@@ -49,18 +49,7 @@ module.exports.getAuthURL = async () => {
       },
       body: JSON.stringify({ authUrl }),
     };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": true,
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      },
-      body: JSON.stringify({ error: error.message }),
-    };
-  }
+  
 };
 
  module.exports.getAccessToken = async (event) => {
