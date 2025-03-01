@@ -37,7 +37,7 @@ export const getEvents = async () => {
 
   if (token) {
     removeQuery();
-    const url =  "https://nznvq7jnf5.execute-api.us-east-2.amazonaws.com/dev/api/get-events" + "/" + token;
+    const url =  "https://yjnvs3rh3k.execute-api.eu-central-1.amazonaws.com/dev/api/get-events" + "/" + token;
     const response = await fetch(url);
     const result = await response.json();
     if (result) {
@@ -71,7 +71,7 @@ export const getAccessToken = async () => {
     const code = await searchParams.get('code');
     if(!code) {
       const response = await fetch(
-        "https://nznvq7jnf5.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url"
+        "https://yjnvs3rh3k.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url"
       );
       const result = await response.json();
       const { authURL } = result;
@@ -85,7 +85,7 @@ export const getAccessToken = async () => {
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
   const response = await fetch(
-    'https://nznvq7jnf5.execute-api.us-east-2.amazonaws.com/dev/api/token' + '/' + encodeCode
+    'https://yjnvs3rh3k.execute-api.eu-central-1.amazonaws.com/dev/api/token' + '/' + encodeCode
   );
   const { access_token } = await response.json();
   access_token && localStorage.setItem("access_token", access_token);
