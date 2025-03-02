@@ -5,13 +5,15 @@ import EventList from './components/EventList.jsx';
 import CitySearch from './components/CitySearch.jsx';
 import NumberOfEvents from './components/NumberOfEvents.jsx';
 import { extractLocations, getEvents } from './api';
+import { InfoAlert, ErrorAlert } from './components/Alert';
 
 function App() {
   const [events, setEvents] = useState([]);
   const [currentNOE, setCurrentNOE] = useState(32);
   const [allLocations, setAllLocations] = useState([]);
   const [currentCity, setCurrentCity] = useState("See all cities");
-  const [errorNotif, setErrorNotif] = useState("");
+  const [infoAlert, setInfoAlert] = useState("");
+  const [errorAlert, setErrorAlert] = useState("");
 
   
   const fetchData = async () => {
@@ -23,14 +25,34 @@ function App() {
     setAllLocations(extractLocations(allEvents));
   }
 
+  /*const handleCityChange = (city) => {
+		setCurrentCity(city);
+		filterEvents(city, eventCount);
+
+		let filtered = events;
+		if (city !== '') {
+			filtered = events.filter((event) =>
+				event.location.toUpperCase().includes(city.toUpperCase())
+			);
+		}
+		setFilteredEvents(filtered.slice(0, eventCount));
+	};*/
+
   useEffect(() => {
     fetchData();
   }, [currentCity, currentNOE]);
 
   return (
     <div>
-      <CitySearch allLocations = {allLocations} setCurrentCity={setCurrentCity}/>
-      <NumberOfEvents setCurrentNOE = {setCurrentNOE} currentNOE = {currentNOE} setErrorNotif = {setErrorNotif}/>
+      <div className="alerts-container">
+        {infoAlert.length ? <InfoAlert text={infoAlert}/> : null}
+        {errorAlert.length ? <ErrorAlert text = {errorAlert}/> : null}
+      </div>
+      <CitySearch allLocations = {allLocations} 
+      setCurrentCity={setCurrentCity} 
+      setInfoAlert={setInfoAlert}/>
+      <NumberOfEvents setCurrentNOE = {setCurrentNOE} 
+      currentNOE = {currentNOE} setInfoAlert = {setInfoAlert} setErrorAlert={setErrorAlert}/>
       <EventList events = {events}/>
     </div>
   );
