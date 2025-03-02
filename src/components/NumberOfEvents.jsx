@@ -18,6 +18,7 @@ const NumberOfEvents = ({ currentNOE, setCurrentNOE, setErrorNotif }) => {
 		}
     }
     
+    console.log("Event num loaded");
     return (
         <div id="number-of-events">
             <label data-testid="event-num"># of Events: 
