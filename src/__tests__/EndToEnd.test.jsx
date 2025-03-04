@@ -5,8 +5,8 @@ describe('show/hide event details', () => {
   let page;
   beforeAll(async () => {
     browser = await puppeteer.launch({
-        // headless: false,
-        // slowMo: 250, // slow down by 250ms
+        // headless: true,
+        // slowMo: 0, // slow down by 250ms
         // timeout: 0
     });
     page = await browser.newPage();
@@ -41,10 +41,7 @@ describe('Filter events by city.', () => {
   let page;
   let eventListItems;
   beforeAll(async () => {
-    browser = await puppeteer.launch({
-      // headless: false,
-      // slowMo: 50, 
-    });
+    browser = await puppeteer.launch();
     page = await browser.newPage();
     await page.goto('http://localhost:5173/');
     await page.waitForSelector('.event');
@@ -60,16 +57,16 @@ describe('Filter events by city.', () => {
   });
 
   test('User should see a list of suggestions when they search for a city', async () => {
-    await page.type('.city', 'Berlin');
+    await page.type('.city', 'Moscow');
     const suggestionListItems = await page.$$('.suggestions li');
-    expect(suggestionListItems.length).toBe(2);
+    expect(suggestionListItems.length).toBe(15);
   });
 
   test('User can select a city from the suggested list', async () => {
     for (let i = 0; i < 6; i++) {
       await page.keyboard.press('Backspace');
     }
-    await page.type('.city', 'Berlin');
+    await page.type('.city', 'Moscow');
     const suggestionText = await page.$eval('.suggestions li:first-child', el => el.textContent);
     await page.click('.suggestions li:first-child');
     const citySearchInputValue = await page.$eval('.city', el => el.value);

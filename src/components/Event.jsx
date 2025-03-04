@@ -15,7 +15,7 @@ const Event = ({ event }) => {
       <h3 id="location">{event.location}</h3>
       {visible ? (
         <div>
-          <h5 id="description" data-testid="description">Details: </h5>
+          <h5 id="description" data-testid="description" testid="description">Details:</h5>
           <h5>{event.description}</h5>
           <h5 id="details">Organizer: </h5>
           <h5>{event.organizer.email}</h5>

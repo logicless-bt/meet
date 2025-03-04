@@ -50,9 +50,9 @@ defineFeature(feature, test => {
         });
 
         then('the event will be expanded.', async () => {
-            const AppDOM = AppComponent.container.firstChild;
-            const eventDetails = screen.queryAllByTestId('description');
-            expect(eventDetails).toBeInTheDocument();
+            await waitFor(() => {
+                expect(screen.getByTestId('description')).toBeInTheDocument();
+              });
         });
     });
 

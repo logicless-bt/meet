@@ -49,10 +49,10 @@ function App() {
 
   return (
     <div>
-      <div>
+      {/*<div>
         <button
         onClick={test}>Test</button>
-      </div>
+      </div>*/}
       <div className="alerts-container">
         {infoAlert.length ? <InfoAlert text={infoAlert}/> : null}
         {errorAlert.length ? <ErrorAlert text = {errorAlert}/> : null}
