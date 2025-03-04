@@ -32,9 +32,9 @@ export const testing = async () => {
   return mockData;
 }
 export const getEvents = async () => {
-  if (window.location.href.startsWith('http://localhost')) {
+  /*if (window.location.href.startsWith('http://localhost')) {
     return mockData;
-  }
+  }*/
 
   const token = await getAccessToken();
 
@@ -77,42 +77,13 @@ export const getAccessToken = async () => {
         "https://rlnfc87lye.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url"
       );
       const result = await response.json();
-      const { authURL } = result;
-      return (window.location.href = authURL);
+      const { authUrl } = result;
+      return (window.location.href = authUrl);
     }
     return code && getToken(code);
   }
   return accessToken;
-  /*try {
-    const token = localStorage.getItem('access_token');
-    console.log("Stored token:", token); // Debugging log
-
-    if (!token) {
-      console.log("No token in localStorage. Fetching new token...");
-      const response = await fetch("https://rlnfc87lye.execute-api.us-east-2.amazonaws.com/dev/api/token");
-      
-      if (!response.ok) {
-        console.error("Error fetching token:", response.status, response.statusText);
-        return null;
-      }
-
-      const result = await response.json();
-      console.log("Token API Response:", result);
-
-      if (result.access_token) {
-        localStorage.setItem('access_token', result.access_token);
-        return result.access_token;
-      } else {
-        console.error("No access_token field in API response:", result);
-        return null;
-      }
-    }
-
-    return token; 
-  } catch (error) {
-    console.error("Error in getAccessToken():", error);
-    return null;
-  }*/
+  
 };
 
 const getToken = async (code) => {
