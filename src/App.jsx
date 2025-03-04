@@ -27,7 +27,6 @@ function App() {
       allEvents :
       allEvents.filter(event => event.location === currentCity)
     setEvents(filteredEvents.slice(0, currentNOE));
-    setEvents(allEvents);
     setAllLocations(extractLocations(allEvents));
   }
 
