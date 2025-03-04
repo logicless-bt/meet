@@ -4,7 +4,7 @@ import './App.css';
 import EventList from './components/EventList.jsx';
 import CitySearch from './components/CitySearch.jsx';
 import NumberOfEvents from './components/NumberOfEvents.jsx';
-import { extractLocations, getEvents } from './api';
+import { extractLocations, getEvents, testing } from './api';
 import { InfoAlert, ErrorAlert } from './components/Alert';
 
 function App() {
@@ -15,13 +15,20 @@ function App() {
   const [infoAlert, setInfoAlert] = useState("");
   const [errorAlert, setErrorAlert] = useState("");
 
+  const test = async () => {
+    const bleh = await getEvents();
+    console.log(bleh);
+  }
   
   const fetchData = async () => {
-    const allEvents = await getEvents();
-    const filteredEvents = currentCity === "See all cities" ?
+    //const allEvents = await getEvents();
+    const allEvents = await testing();
+    
+    /*const filteredEvents = currentCity === "See all cities" ?
       allEvents :
       allEvents.filter(event => event.location === currentCity)
-    setEvents(filteredEvents.slice(0, currentNOE));
+    setEvents(filteredEvents.slice(0, currentNOE));*/
+    setEvents(allEvents);
     setAllLocations(extractLocations(allEvents));
   }
 
@@ -44,6 +51,10 @@ function App() {
 
   return (
     <div>
+      <div>
+        <button
+        onClick={test}>Test</button>
+      </div>
       <div className="alerts-container">
         {infoAlert.length ? <InfoAlert text={infoAlert}/> : null}
         {errorAlert.length ? <ErrorAlert text = {errorAlert}/> : null}

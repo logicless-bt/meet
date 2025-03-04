@@ -17,7 +17,7 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 
 
-module.exports.handler = async (event) => {
+/*module.exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -30,14 +30,13 @@ module.exports.handler = async (event) => {
       body: '',
     };
   }
-}
+}*/
 
 module.exports.getAuthURL = async () => {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
     scope: SCOPES,
   });
- 
  
   return {
     statusCode: 200,
@@ -50,84 +49,81 @@ module.exports.getAuthURL = async () => {
     }),
   };
  };
-
+ 
  module.exports.getAccessToken = async (event) => {
-  // Decode authorization code extracted from the URL query
-  const code = decodeURIComponent(`${event.pathParameters.code}`);
+   const code = decodeURIComponent(`${event.pathParameters.code}`);
+  
+   return new Promise((resolve, reject) => {
+     oAuth2Client.getToken(code, (error, response) => {
+       if (error) {
+         return reject(error);
+       }
+       return resolve(response);
+     });
+   })
+     .then((results) => {
+       return {
+         statusCode: 200,
+         headers: {
+           'Access-Control-Allow-Origin': '*',
+           'Access-Control-Allow-Credentials': true,
+         },
+         body: JSON.stringify(results),
+       };
+     })
+     .catch((error) => {
+       return {
+         statusCode: 500,
+         headers: {
+           'Access-Control-Allow-Origin': '*',
+           'Access-Control-Allow-Credentials': true,
+         },
+         body: JSON.stringify(error),
+       };
+     });
+  };
+  
+  module.exports.getCalendarEvents = async (event) => {
+   try {
+     const access_token = decodeURIComponent(`${event.pathParameters.access_token}`);
+     oAuth2Client.setCredentials({ access_token });
  
+     const response = await new Promise((resolve, reject) => {
+       calendar.events.list(
+         {
+           calendarId: CALENDAR_ID,
+           auth: oAuth2Client,
+           timeMin: new Date().toISOString(),
+           singleEvents: true,
+           orderBy: "startTime",
+         },
+         (error, response) => {
+           if (error) {
+             reject(error);
+           } else {
+             resolve(response);
+           }
+         }
+       );
+     });
  
-  return new Promise((resolve, reject) => {
- 
- 
-    oAuth2Client.getToken(code, (error, response) => {
-      if (error) {
-        return reject(error);
-      }
-      return resolve(response);
-    });
-  })
-    .then((results) => {
-      // Respond with OAuth token
-      return {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
-        body: JSON.stringify(results),
-      };
-    })
-    .catch((error) => {
-      return {
-        statusCode: 500,
-        body: JSON.stringify(error),
-      };
-    });
+     return {
+       statusCode: 200,
+       headers: {
+         'Access-Control-Allow-Origin': '*',
+         'Access-Control-Allow-Credentials': true,
+       },
+       body: JSON.stringify({ events: response.data.items }),
+     };
+   } catch (error) {
+     console.error('Error fetching calendar events:', error);
+     return {
+       statusCode: 500,
+       headers: {
+         'Access-Control-Allow-Origin': '*',
+         'Access-Control-Allow-Credentials': true,
+       },
+       body: JSON.stringify({ error: error.message, stack: error.stack }),
+     };
+   }
  };
- 
- 
-
-module.exports.getCalendarEvents = async (event) => {
-    const access_token = decodeURIComponent(`${event.pathParameters.access_token}`);
-    oAuth2Client.setCredentials({ access_token });
-
-    return new Promise((resolve, reject) => {
-        //inital request for data from the api
-        calendar.events.list(
-            {
-                calendarId: CALENDAR_ID,
-                auth: oAuth2Client,
-                timeMin: new Date().toISOString(),
-                singleEvents: true,
-                orderBy: "startTime",
-            },
-            (error, response) => {
-                if(error){
-                    reject(error);
-                } else {
-                    resolve(response);
-                }
-            }
-        );
-    })
-    //once promise is resolved, this happens (typically returning status code and stringifying results)
-    .then((results) => {
-        return {
-            statusCode: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': true,
-                'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-            },
-            body: JSON.stringify(results),
-        };
-    })
-    //error handling
-    .catch((error) => {
-        return {
-            statusCode: 500,
-            body: JSON.stringify(error),
-        };
-    });
-};

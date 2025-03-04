@@ -27,16 +27,20 @@ const checkToken = async (accessToken) => {
  *
  * This function will fetch the list of all events
  */
+
+export const testing = async () => {
+  return mockData;
+}
 export const getEvents = async () => {
-  if (window.location.href.startsWith('http://localhost')) {
+  /*if (window.location.href.startsWith('http://localhost')) {
     return mockData;
-  }
+  }*/
 
   const token = await getAccessToken();
 
 
   if (token) {
-    const url =  "https://jzm7f8apu2.execute-api.us-east-2.amazonaws.com/dev/api/get-events" + "/" + token;
+    const url =  "https://lhtolj50fl.execute-api.us-east-2.amazonaws.com/dev/api/get-events" + "/" + token;
     const response = await fetch(url);
     const result = await response.json();
     if (result) {
@@ -61,7 +65,7 @@ const removeQuery = () => {
  };
 
 export const getAccessToken = async () => {
-  const accessToken = localStorage.getItem('access_token');
+  /*const accessToken = localStorage.getItem('access_token');
 
   const tokenCheck = accessToken && (await checkToken(accessToken));
   if(!accessToken || tokenCheck.error){
@@ -70,7 +74,7 @@ export const getAccessToken = async () => {
     const code = await searchParams.get('code');
     if(!code) {
       const response = await fetch(
-        "https://jzm7f8apu2.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url"
+        "https://lhtolj50fl.execute-api.us-east-2.amazonaws.com/dev/api/get-auth-url"
       );
       const result = await response.json();
       const { authURL } = result;
@@ -78,13 +82,43 @@ export const getAccessToken = async () => {
     }
     return code && getToken(code);
   }
-  return accessToken;
+  return accessToken;*/
+  try {
+    const token = localStorage.getItem('access_token');
+    console.log("Stored token:", token); // Debugging log
+
+    if (!token) {
+      console.log("No token in localStorage. Fetching new token...");
+      const response = await fetch("https://lhtolj50fl.execute-api.us-east-2.amazonaws.com/dev/api/token");
+      
+      if (!response.ok) {
+        console.error("Error fetching token:", response.status, response.statusText);
+        return null;
+      }
+
+      const result = await response.json();
+      console.log("Token API Response:", result);
+
+      if (result.access_token) {
+        localStorage.setItem('access_token', result.access_token);
+        return result.access_token;
+      } else {
+        console.error("No access_token field in API response:", result);
+        return null;
+      }
+    }
+
+    return token; 
+  } catch (error) {
+    console.error("Error in getAccessToken():", error);
+    return null;
+  }
 };
 
 const getToken = async (code) => {
   const encodeCode = encodeURIComponent(code);
   const response = await fetch(
-    'https://jzm7f8apu2.execute-api.us-east-2.amazonaws.com/dev/api/token' + '/' + encodeCode
+    'https://lhtolj50fl.execute-api.us-east-2.amazonaws.com/dev/api/token' + '/' + encodeCode
   );
   const { access_token } = await response.json();
   access_token && localStorage.setItem("access_token", access_token);
