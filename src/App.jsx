@@ -4,7 +4,7 @@ import './App.css';
 import EventList from './components/EventList.jsx';
 import CitySearch from './components/CitySearch.jsx';
 import NumberOfEvents from './components/NumberOfEvents.jsx';
-import { extractLocations, getEvents, testing } from './api';
+import { extractLocations, getEvents } from './api';
 import { InfoAlert, ErrorAlert } from './components/Alert';
 
 function App() {

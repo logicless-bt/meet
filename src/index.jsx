@@ -1,0 +1,1 @@
+import * as atatus from 'atatus-spa';
