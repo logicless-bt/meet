@@ -5,7 +5,7 @@ import EventList from './components/EventList.jsx';
 import CitySearch from './components/CitySearch.jsx';
 import NumberOfEvents from './components/NumberOfEvents.jsx';
 import { extractLocations, getEvents } from './api';
-import { InfoAlert, ErrorAlert } from './components/Alert';
+import { InfoAlert, ErrorAlert, WarningAlert } from './components/Alert';
 
 function App() {
   const [events, setEvents] = useState([]);
@@ -14,11 +14,7 @@ function App() {
   const [currentCity, setCurrentCity] = useState("See all cities");
   const [infoAlert, setInfoAlert] = useState("");
   const [errorAlert, setErrorAlert] = useState("");
-
-  const test = async () => {
-    const bleh = await getEvents();
-    console.log(bleh);
-  }
+  const [warningAlert, setWarningAlert] = useState("");
   
   const fetchData = async () => {
     const allEvents = await getEvents();
@@ -44,6 +40,11 @@ function App() {
 	};*/
 
   useEffect(() => {
+    if (navigator.onLine) {
+      // set the warning alert message to an empty string ""
+    } else {
+      // set the warning alert message to a non-empty string
+    }
     fetchData();
   }, [currentCity, currentNOE]);
 
