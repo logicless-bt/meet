@@ -4,6 +4,7 @@ import './App.css';
 import EventList from './components/EventList.jsx';
 import CitySearch from './components/CitySearch.jsx';
 import NumberOfEvents from './components/NumberOfEvents.jsx';
+import CityEventsChart from './components/CityEventsChart.jsx';
 import { extractLocations, getEvents } from './api';
 import { InfoAlert, ErrorAlert, WarningAlert } from './components/Alert';
 
@@ -41,28 +42,26 @@ function App() {
 
   useEffect(() => {
     if (navigator.onLine) {
-      // set the warning alert message to an empty string ""
+      setWarningAlert("");
     } else {
-      // set the warning alert message to a non-empty string
+      setWarningAlert("You are running offline. Data may be out of date.");
     }
     fetchData();
   }, [currentCity, currentNOE]);
 
   return (
     <div>
-      {/*<div>
-        <button
-        onClick={test}>Test</button>
-      </div>*/}
       <div className="alerts-container">
         {infoAlert.length ? <InfoAlert text={infoAlert}/> : null}
         {errorAlert.length ? <ErrorAlert text = {errorAlert}/> : null}
+        {warningAlert.length ? <WarningAlert text = {warningAlert}/> : null}
       </div>
       <CitySearch allLocations = {allLocations} 
       setCurrentCity={setCurrentCity} 
       setInfoAlert={setInfoAlert}/>
       <NumberOfEvents setCurrentNOE = {setCurrentNOE} 
       currentNOE = {currentNOE} setInfoAlert = {setInfoAlert} setErrorAlert={setErrorAlert}/>
+      <CityEventsChart events = {events} allLocations = {allLocations}/>
       <EventList events = {events}/>
     </div>
   );
