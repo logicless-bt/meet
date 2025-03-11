@@ -63,8 +63,12 @@ function App() {
       <NumberOfEvents setCurrentNOE = {setCurrentNOE} 
       currentNOE = {currentNOE} setInfoAlert = {setInfoAlert} setErrorAlert={setErrorAlert}/>
       <div className = "charts-container">
-        <CityEventsChart events = {events} allLocations = {allLocations}/>
-        <EventsGenreChart events = {events} />
+        <div className = "city-chart">
+          <CityEventsChart events = {events} allLocations = {allLocations}/>
+        </div>
+        <div className = "events-chart">
+          <EventsGenreChart events = {events} />
+        </div>
       </div>
       <EventList events = {events}/>
     </div>
