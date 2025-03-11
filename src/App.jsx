@@ -5,6 +5,7 @@ import EventList from './components/EventList.jsx';
 import CitySearch from './components/CitySearch.jsx';
 import NumberOfEvents from './components/NumberOfEvents.jsx';
 import CityEventsChart from './components/CityEventsChart.jsx';
+import EventsGenreChart from './components/EventsGenreChart.jsx';
 import { extractLocations, getEvents } from './api';
 import { InfoAlert, ErrorAlert, WarningAlert } from './components/Alert';
 
@@ -61,7 +62,10 @@ function App() {
       setInfoAlert={setInfoAlert}/>
       <NumberOfEvents setCurrentNOE = {setCurrentNOE} 
       currentNOE = {currentNOE} setInfoAlert = {setInfoAlert} setErrorAlert={setErrorAlert}/>
-      <CityEventsChart events = {events} allLocations = {allLocations}/>
+      <div className = "charts-container">
+        <CityEventsChart events = {events} allLocations = {allLocations}/>
+        <EventsGenreChart events = {events} />
+      </div>
       <EventList events = {events}/>
     </div>
   );
