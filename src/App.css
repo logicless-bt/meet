@@ -172,6 +172,9 @@ input[type="number"] {
 }
 
 @media (max-width: 768px) {
+  li {
+    max-width: 100%;
+  }
   .charts-container {
     grid-template-columns: 1fr;
   }
