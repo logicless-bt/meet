@@ -16,8 +16,8 @@ const Event = ({ event }) => {
       {visible ? (
         <div>
           <h5 id="description" data-testid="description" testid="description">Details:</h5>
-          <h5>{event.description}</h5>
-          <h5 id="details">Organizer: </h5>
+          <h5 id = "details">{event.description}</h5>
+          <h5 id="organizer">Organizer: </h5>
           <h5>{event.organizer.email}</h5>
           <button id="hide-details" onClick={() => setVisible(false)}>Hide Details</button>
         </div>

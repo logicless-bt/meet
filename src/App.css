@@ -4,6 +4,12 @@ ul {
   list-style: none;
 }
 
+li {
+  text-align: center;
+  max-width: 50%;
+  margin: 0 auto;
+}
+
 p {
   margin: 5px 0;
 }
@@ -144,6 +150,10 @@ input[type="number"] {
 .events-chart {
   padding: 0 0 20px 0;
   display: flex;
+}
+
+.details {
+  max-width: 50%;
 }
 
 @keyframes logo-spin {
